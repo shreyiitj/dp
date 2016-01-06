@@ -1,0 +1,83 @@
+//longest inc. subsequence
+//correct
+#include<iostream>
+//#include<string>
+#include<cstdlib>
+#include<vector>
+#define NIL -1000
+// input 5 3 8 10 9 4 7 8 9
+using namespace std;
+int main()
+{
+vector<int> p;
+string s;
+int a;
+int i,j;
+cout<<"enter numbers;press s to stop"<<endl;
+
+while(1==1)
+    {
+    cin>>s;
+    if(s=="s") break;
+    a=atoi(s.c_str());
+    //cout<<a<<endl;
+    p.push_back(a);
+    }
+
+int sz=p.size();
+int *lis=new int[sz];
+int *parent=new int[sz];
+for(i=0;i<sz;i++)
+    {
+    lis[i]=1;
+    parent[i]=NIL;
+    }
+for(i=0;i<sz;i++)
+    {
+    for(j=0;j<i;j++)
+        {
+        if(p[j]<p[i])
+            {
+            if(lis[i]<(1+lis[j]))
+                {
+                lis[i]=1+lis[j];
+                parent[i]=j;
+                if(i==6)
+                {
+         //           cout<<lis[i]<<"---"<<parent[i]<<endl;
+                }
+                }
+            }
+        }
+    }
+    int maxi=0;
+    int ind;               //index
+    for(i=0;i<sz;i++)
+        {
+        if(lis[i]>maxi)
+            {
+            maxi=lis[i];
+            ind=i;
+            //cout<<ind;            8
+            }
+        }
+        //cout<<"length of LIS is "<<maxi<<endl;
+
+        vector<int> q;
+        //q.push_back(p[ind]);
+       do
+        {
+    //        cout<<"p[ind]="<<p[ind]<<endl;
+        q.push_back(p[ind]);
+       // cout<<"pushed"<<ind<<"--parent--"<<parent[ind]<<endl;
+        ind=parent[ind];
+        }while(ind!=NIL);
+sz=q.size();
+//cout<<"q size="<<sz<<endl;
+
+for(i=sz-1;i>=0;i--)
+    {
+    cout<<q[i]<<" ";
+    }
+
+}
