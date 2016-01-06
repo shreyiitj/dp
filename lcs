@@ -1,0 +1,77 @@
+// longest common subsequence
+#include<iostream>
+#define NIL -1
+using namespace std;
+
+int L(string a,string b,int a_l,int b_l,int **t);
+
+
+int main()
+{
+  int i,j;
+  string a,b;
+  cin>>a;
+  cin>>b;
+  int a_l,b_l;
+  a_l=a.size();
+  b_l=b.size();
+  //cout<<a_l;
+  int **t=new int*[a_l+1];
+  for(i=0;i<a_l+1;i++)
+  {
+   t[i]=new int[b_l+1];
+   for(j=0;j<b_l+1;j++)
+   {
+     t[i][j]=NIL;
+   }
+  }
+  int len=L(a,b,a_l,b_l,t);
+  cout<<len<<endl;
+  char *s=new char[len];
+  int l=len;
+  while(a_l>0 && b_l>0)
+  {
+
+            if(a[a_l-1]==b[b_l-1])
+            {
+                s[len-1]=a[a_l-1];
+             //   cout<<s[len-1];
+                a_l--;b_l--;len--;
+            }
+            else
+            {
+                if(t[a_l][b_l-1]>t[a_l-1][b_l])  b_l--;
+                else a_l--;
+            }
+
+  }
+  for(i=0;i<l;i++)
+  {
+      cout<<s[i];
+  }
+}
+
+int L(string a,string b,int a_l,int b_l,int **t)
+{
+ if(t[a_l][b_l]!=NIL) return t[a_l][b_l];
+ if(a_l==0 || b_l==0)
+ {
+  t[a_l][b_l]=0;
+  return 0;
+ }
+
+
+    if(a[a_l-1]==b[b_l-1])
+    {
+      //ans.push_back(a[i]);
+      t[a_l][b_l]=1+L(a,b,a_l-1,b_l-1,t);
+
+    }
+    else
+    {
+      t[a_l][b_l]=max(L(a,b,a_l-1,b_l,t),L(a,b,a_l,b_l-1,t));
+
+    }
+  return t[a_l][b_l];
+
+}
