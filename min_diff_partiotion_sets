@@ -1,0 +1,67 @@
+//
+#include<iostream>
+using namespace std;
+
+int findMin(int* arr,int n);
+
+int main()
+{
+ int arr[]={2,3,4,5};
+ int n=sizeof(arr)/sizeof(arr[0]);
+ cout<<"min. difference of subset sums is"<<endl;
+ cout<<findMin(arr,n);
+}
+
+int findMin(int* arr,int n)
+{
+  int sum=0;
+  int i,j;
+  for(i=0;i<n;i++)
+  {
+    sum=sum+arr[i];
+  }
+  int **dp=new int*[n+1];
+  for(i=0;i<n+1;i++)
+  {
+    dp[i]=new int[sum+1];
+    dp[i][0]=1;
+  }
+  for(i=1;i<sum+1;i++)
+  {
+    dp[0][i]=0;
+  }
+
+  for(i=1;i<=n;i++)
+  {
+    for(j=1;j<=sum;j++)
+    {
+      dp[i][j]=dp[i-1][j];    //if same sum is possible excluding current element
+      if(dp[i][j]==1)
+      {
+
+         // cout<<i<<" ex "<<j<<endl;
+      }
+      if(arr[i-1]<=j)
+      {
+        dp[i][j] |= dp[i-1][j-arr[i-1]];
+        if(dp[i][j]==1)
+      {
+         // cout<<i<<" or "<<j<<endl;
+      }
+      }
+    }
+  }
+  int sub1;
+  //cout<<"sum is "<<sum<<" value of n "<<n;
+  for(i=sum/2;i>=0;i--)
+  {
+    if(dp[n][i]==1)
+    {
+    //    cout<<"value of i "<<i<<endl;
+     sub1=i;
+     break;
+    }
+  }
+  int diff= sum-2*sub1;
+  return diff;
+}
